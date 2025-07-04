@@ -11,11 +11,12 @@ pipeline{
     }
 
     stages{
+        /*
         stage('Compilación Maven'){
             steps{
                 sh 'mvn clean package -Dskiptests'
             }
-        }
+        }*/
         stage('Construir imagen'){
             steps{
                 dir("${DOCKER_BUILD_DIR}"){
