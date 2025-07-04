@@ -13,19 +13,19 @@ pipeline{
     stages{
         stage('Compilación Maven'){
             steps{
-                bat 'mvn clean package -Dskiptests'
+                sh 'mvn clean package -Dskiptests'
             }
         }
         stage('Construir imagen'){
             steps{
                 dir("${DOCKER_BUILD_DIR}"){
-                    bat "docker build . -t ${DOCKER_IMAGE}"
+                    sh "docker build . -t ${DOCKER_IMAGE}"
                 }
             }
         }
         stage('Desplegar contenedor'){
             steps{
-                bat "docker run --network ${DOCKER_NETWORK} --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} -d ${DOCKER_IMAGE}"
+                sh "docker run --network ${DOCKER_NETWORK} --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} -d ${DOCKER_IMAGE}"
             }
         }
     }
