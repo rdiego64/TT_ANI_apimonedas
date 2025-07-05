@@ -17,17 +17,22 @@ pipeline{
                 sh 'mvn clean package -Dskiptests'
             }
         }*/
-        
-        stage('Test Docker') {
+
+        stage('Check Docker Access') {
             steps {
-                sh 'which docker && docker --version'
+                sh '''
+                    echo "Docker path:"
+                    which docker
+                    echo "Docker version:"
+                    docker --version
+                '''
             }
         }
         
         stage('Construir imagen'){
             steps{
                 dir("${DOCKER_BUILD_DIR}"){
-                    sh "docker build . -t ${DOCKER_IMAGE}"
+                    sh "/usr/local/bin/docker build . -t ${DOCKER_IMAGE}"
                 }
             }
         }
