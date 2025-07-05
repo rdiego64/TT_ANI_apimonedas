@@ -17,6 +17,13 @@ pipeline{
                 sh 'mvn clean package -Dskiptests'
             }
         }*/
+        
+        stage('Test Docker') {
+            steps {
+                sh 'which docker && docker --version'
+            }
+        }
+        
         stage('Construir imagen'){
             steps{
                 dir("${DOCKER_BUILD_DIR}"){
