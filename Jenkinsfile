@@ -21,6 +21,7 @@ pipeline{
         stage('Check Docker Access') {
             steps {
                 sh '''
+                    export PATH=/usr/local/bin:$PATH
                     echo "Docker path:"
                     which docker
                     echo "Docker version:"
