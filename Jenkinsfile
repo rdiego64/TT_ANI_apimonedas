@@ -33,7 +33,7 @@ pipeline{
         stage('Construir imagen'){
             steps{
                 //dir("${DOCKER_BUILD_DIR}"){
-                    sh "/usr/local/bin/docker build . -t ${DOCKER_IMAGE}"
+                    sh "docker build . -t ${DOCKER_IMAGE}"
                 //}
             }
         }
