@@ -8,6 +8,7 @@ pipeline{
         DOCKER_BUILD_DIR = 'presentacion'
         HOST_PORT = '9080'
         CONTAINER_PORT = '8080'
+        PATH = '/usr/local/bin:$PATH'
     }
 
     stages{
