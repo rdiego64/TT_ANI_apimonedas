@@ -17,7 +17,7 @@ pipeline{
             steps{
                 sh 'mvn clean package -Dskiptests'
             }
-        }*/
+        }
 
         stage('Check Docker Access') {
             steps {
@@ -29,7 +29,7 @@ pipeline{
                     docker --version
                 '''
             }
-        }
+        }*/
         
         stage('Construir imagen'){
             steps{
