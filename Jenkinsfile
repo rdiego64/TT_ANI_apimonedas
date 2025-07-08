@@ -32,7 +32,7 @@ pipeline{
         stage('Check Docker Access') {
             steps {
                 echo 'Ejecutando paso sh...'
-                /bin/sh '''
+                sh '''
                     export PATH=/usr/local/bin:$PATH
                     echo "Docker path:"
                     which docker
