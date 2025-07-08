@@ -8,7 +8,6 @@ pipeline{
         DOCKER_BUILD_DIR = 'presentacion'
         HOST_PORT = '9080'
         CONTAINER_PORT = '8080'
-        PATH = '/usr/local/bin:$PATH'
     }
 
     stages{
@@ -21,9 +20,9 @@ pipeline{
         
         stage('Diagnóstico') {
           steps {
-            zsh 'echo "Shell usado: $(which sh)"'
-            zsh 'echo "PATH actual: $PATH"'
-            zsh 'env'
+            sh 'echo "Shell usado: $(which sh)"'
+            sh 'echo "PATH actual: $PATH"'
+            sh 'env'
           }
         }
 
@@ -31,7 +30,6 @@ pipeline{
             steps {
                 echo 'Ejecutando paso sh...'
                 sh '''
-                    export PATH=/usr/local/bin:$PATH
                     echo "Docker path:"
                     which docker
                     echo "Docker version:"
