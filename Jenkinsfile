@@ -17,10 +17,11 @@ pipeline{
             steps{
                 sh 'mvn clean package -Dskiptests'
             }
-        }
+        }*/
 
         stage('Check Docker Access') {
             steps {
+                echo 'Ejecutando paso sh...'
                 sh '''
                     export PATH=/usr/local/bin:$PATH
                     echo "Docker path:"
@@ -28,8 +29,9 @@ pipeline{
                     echo "Docker version:"
                     docker --version
                 '''
+                echo 'Despues de paso sh...'
             }
-        }*/
+        }
         
         stage('Construir imagen'){
             steps{
