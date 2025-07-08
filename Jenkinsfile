@@ -16,7 +16,7 @@ pipeline{
             steps{
                 sh 'mvn clean package -Dskiptests'
             }
-        }*/
+        }
         
         stage('Diagnóstico') {
           steps {
@@ -37,7 +37,7 @@ pipeline{
                 '''
                 echo 'Despues de paso sh...'
             }
-        }
+        }*/
         
         stage('Construir imagen'){
             steps{
@@ -50,16 +50,7 @@ pipeline{
 
         stage('Limpiar contenedor existente') {
             steps {
-                script {
-                    catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                        sh """
-                        docker container inspect ${CONTAINER_NAME} >nul 2>&1 && (
-                            docker container stop ${CONTAINER_NAME}
-                            docker container rm ${CONTAINER_NAME}
-                        ) || echo "No existe el contenedor '${CONTAINER_NAME}'."
-                        """
-                    }
-                }
+                    sh "docker container rm -f ${CONTAINER_NAME}"
             }
         }
         
