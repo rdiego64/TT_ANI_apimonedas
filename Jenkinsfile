@@ -19,6 +19,16 @@ pipeline{
             }
         }*/
 
+          stages {
+                stage('Diagnóstico') {
+                  steps {
+                    sh 'echo "Shell usado: $(which sh)"'
+                    sh 'echo "PATH actual: $PATH"'
+                    sh 'env'
+                  }
+                }
+              }
+
         stage('Check Docker Access') {
             steps {
                 echo 'Ejecutando paso sh...'
