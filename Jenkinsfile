@@ -20,7 +20,7 @@ pipeline {
                 steps {
                     script {
                         sh """
-                        kubectl apply -f _manifiestos\\infraestructura\\
+                        kubectl apply -f manifiestos\\infraestructura\\
                         """
                     }
                 }
