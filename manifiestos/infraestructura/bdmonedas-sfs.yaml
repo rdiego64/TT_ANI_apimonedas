@@ -17,17 +17,17 @@ spec:
         - name: bdmonedas
           image: postgres:16
           ports:
-          - containerPort: 5432
-        - env:
-          - name: POSTGRES_BD
-            value: monedas
-          - name: POSTGRES_USUARIO
-            value: postgres
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: bdmonedas-secretos
-                key: BDMONEDAS_PASSWORD
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_BD
+              value: monedas
+            - name: POSTGRES_USUARIO
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bdmonedas-secretos
+                  key: BDMONEDAS_PASSWORD
           volumeMounts:
             - name: storage-bdmonedas
               mountPath: /var/lib/postgresql/data
