@@ -1,63 +1,50 @@
-pipeline{
+pipeline {
     agent any
 
-    environment{
-        DOCKER_IMAGE = 'apimonedastt'
-        CONTAINER_NAME = 'dockerapimonedastt'
-        DOCKER_NETWORK = 'dockermonedas_red'
-        DOCKER_BUILD_DIR = 'presentacion'
-        HOST_PORT = '9080'
-        CONTAINER_PORT = '8080'
+    environment {
+        KUBECONFIG = credentials('KUBECONFIG')
     }
 
-    stages{
-        /*
-        stage('Compilación Maven'){
-            steps{
-                sh 'mvn clean package -Dskiptests'
+    stages {
+        stage('Limpiar datos previos') {
+            steps {
+                script {
+                    sh """
+                    kubectl delete statefulset bdmonedas-sfs --ignore-not-found
+                    """
+                }
             }
-        }
-        
-        stage('Diagnóstico') {
-          steps {
-            sh 'echo "Shell usado: $(which sh)"'
-            sh 'echo "PATH actual: $PATH"'
-            sh 'env'
-          }
         }
 
-        stage('Check Docker Access') {
-            steps {
-                echo 'Ejecutando paso sh...'
-                sh '''
-                    echo "Docker path:"
-                    which docker
-                    echo "Docker version:"
-                    docker --version
-                '''
-                echo 'Despues de paso sh...'
+        stage('Aplicar Manifiestos Infraestructura') {
+                steps {
+                    script {
+                        sh """
+                        kubectl apply -f _manifiestos\\infraestructura\\
+                        """
+                    }
+                }
             }
-        }*/
-        
-        stage('Construir imagen'){
-            steps{
-                //dir("${DOCKER_BUILD_DIR}"){
-                    sh "docker build . -t ${DOCKER_IMAGE}"
-                //}
-            }
-        }
-        
 
-        stage('Limpiar contenedor existente') {
-            steps {
-                    sh "docker container rm -f ${CONTAINER_NAME}"
+        stage('Esperar Pod listo') {
+                steps {
+                    script {
+                        sh """
+                        kubectl rollout status statefulset/bdmonedas-sfs-tt
+                        """
+                    }
+                }
             }
+
+    }
+
+    post {
+        success {
+            echo 'Infraestructura desplegada correctamente!'
         }
-        
-        stage('Desplegar contenedor'){
-            steps{
-                sh "docker run --network ${DOCKER_NETWORK} --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} -d ${DOCKER_IMAGE}"
-            }
+        failure {
+            echo 'Error desplegando la infraestructura.'
         }
     }
+
 }
