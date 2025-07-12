@@ -11,6 +11,7 @@ pipeline {
                 script {
                     sh """
                     kubectl delete statefulset bdmonedas-sfs --ignore-not-found
+                    kubectl delete pvc storage-bdmonedas-bdmonedas-sfs-0 --ignore-not-found
                     """
                 }
             }
@@ -30,7 +31,7 @@ pipeline {
                 steps {
                     script {
                         sh """
-                        kubectl rollout status statefulset/bdmonedas-sfs-tt
+                        kubectl rollout status statefulset/bdmonedas-sfs
                         """
                     }
                 }
